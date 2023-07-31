@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.room_mvvm.Modelo.Model.Task
 import com.example.room_mvvm.R
 import com.example.room_mvvm.ViewModel.TaskViewModel
@@ -41,23 +43,68 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
+        /*binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+        }*/
         /** En esta funcion podemos crear una nueva tarea, hacemos una variable que es del tipo
-         * Task, importamos la clase y llenamos segun lo puesto en la clase original*/
+         * Task, importamos la clase y llenamos segun lo puesto en la clase original
+         * TODO: Cada vez que corro la app estoy creando una nueva tarea*/
         val newTask= Task(
             title = "RoomMVVM",
-            descripcion = "descripcion",
-            date = "29-07-2023",
+            descripcion = "descripcion-state true",
+            date = "31-07-2023",
             priority = 1,
-            state = false
+            state = true
         )
 
         //para insertar, llamamos al viewmodel a la funcion insertar tarea y le pasamos la newtask
         viewModel.insertTask(newTask)
 
-        //probando en el app inspector se ha insertado correctamente la tarea.
+        //probando en el app inspector se ha insertado correctamente la tarea
+        //despues de crear el adapter pasamos el adapter al recycler view
+        val adapter=TaskAdapter()
+        binding.rvTask.adapter= adapter
+        binding.rvTask.layoutManager=LinearLayoutManager(context)
+        //agregamos una decoracion
+        binding.rvTask.addItemDecoration(
+            //agregamos un divisor de item
+        DividerItemDecoration(
+            //le paso el contexto
+            context,
+            //y el divisor con su orientacion
+            DividerItemDecoration.VERTICAL
+        )
+        )
+
+        /**Finalmente le paso la lista al adapter, la con livedata que se hizo en viewmodel
+         * la lista al ser livedata debe ser observada por el dueño del ciclo de vida de la vista*/
+        //TODO intentar sacar el operador lambda del parentesis
+        viewModel.allTask.observe(viewLifecycleOwner,{
+
+            //mientras exita un elemento en la lista los ira trayendo
+            it?.let {
+                adapter.update(it)
+            }
+        })
+
+        /**Usando el adaptador enviaremos la tarea seleccionada al segundo fragmento, se observa
+         * tal como la anterior
+         */
+
+        adapter.selectedItem().observe(viewLifecycleOwner,{
+            it?.let {
+                //le paso la tarea seleccionada
+                viewModel.selected(it)
+                //como el elemento ya esta seleccionado, activo la navegacion
+                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+
+            }
+        })
+
+
+
+
+
 
 
     }
