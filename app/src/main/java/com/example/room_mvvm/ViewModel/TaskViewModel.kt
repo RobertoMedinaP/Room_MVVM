@@ -81,7 +81,10 @@ class TaskViewModel (application: Application): AndroidViewModel(application) {
 
     //funcion para recibir el objeto, en este caso un task
 
-    fun selected(task: Task){
+
+    //a esta funcion le damos Task? para que pueda ser nula en caso de que no se haga ninguna
+    //seleccion
+    fun selected(task: Task?){
         //la tarea seleccionada en la funcion anterior se guarda, guardamos lo seleccionado
         selectedTask.value=task
     }

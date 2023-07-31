@@ -46,19 +46,24 @@ class FirstFragment : Fragment() {
         /*binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }*/
+
+        //para que el boton flotante lleve al segundo fragmento
+        binding.fab2.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
         /** En esta funcion podemos crear una nueva tarea, hacemos una variable que es del tipo
          * Task, importamos la clase y llenamos segun lo puesto en la clase original
          * TODO: Cada vez que corro la app estoy creando una nueva tarea*/
-        val newTask= Task(
+       /* val newTask= Task(
             title = "RoomMVVM",
             descripcion = "descripcion-state true",
             date = "31-07-2023",
             priority = 1,
             state = true
-        )
+        )*/
 
         //para insertar, llamamos al viewmodel a la funcion insertar tarea y le pasamos la newtask
-        viewModel.insertTask(newTask)
+        //viewModel.insertTask(newTask)
 
         //probando en el app inspector se ha insertado correctamente la tarea
         //despues de crear el adapter pasamos el adapter al recycler view

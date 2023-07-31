@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.room_mvvm.Modelo.Model.Task
@@ -74,9 +75,16 @@ class SecondFragment : Fragment() {
             }
         })
 
-        /**Falta: que el boton guardar pueda actualizar la tarea seleccionada y que se pueda
-         * eliminar una tarea y que el boton flotante del primer fragmento lleve al segundo
-         * tambien podria hacer que la tarea se cree a partir de edittext
+        //vamos a hacer que el boton guardar use la funcion para guardar
+        binding.btnsave.setOnClickListener {
+            saveData()
+            //avisamos a viewmodel que no hemos seleccionado nada
+            viewModel.selected(null)
+            //ademas hacemos navegacion hacia el primer fragmento
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        }
+
+        /**Falta: eliminar una tarea y poder eliminarlas todas
          */
 
     }
@@ -84,5 +92,53 @@ class SecondFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    //Función para guardar datos:
+    private fun saveData(){
+        //asociamos todos los campos a una variable
+        val title=binding.etTitle.text.toString()//esta variable el profe la hizo sin text
+        val description=binding.etDescription.text.toString()
+        val date=binding.etDate.text.toString()
+        //priority es int
+        val priority=binding.etPriority.text.toString().toInt()
+        val state=binding.cbStatenew.isChecked
+
+        //algunas validaciones
+        if (title.isEmpty()||description.isEmpty()||date.isEmpty()){
+            Toast.makeText(context,"Ingrese datos",Toast.LENGTH_LONG).show()
+        }else{
+            //si el id es el primero, es decir es una tarea nueva, insertamos una nueva tarea
+            if (idTask==0){
+                val newTask= Task(
+                    title=title,
+                    descripcion = description,
+                    date= date,
+                    priority = priority,
+                    state=state
+                )
+                viewModel.insertTask(newTask)
+                Toast.makeText(context,"Tarea guardada",Toast.LENGTH_LONG).show()
+            }else{
+                //si el id es distinto a cero, la tarea ya existe, entonces hay que actualizar
+                //se crea una nueva tarea1
+                val newTask1= Task(
+                    //pero esta vez le pasamos un id ya que la tarea ya existe, es el id que viene
+                    //desde el observer para saber cual actualizar
+                    id= idTask,
+                    title=title,
+                    descripcion = description,
+                    date= date,
+                    priority = priority,
+                    state=state
+                )
+                //pero esta vez actualizamos con los valores de newtask1
+                viewModel.updateTask(newTask1)
+                Toast.makeText(context,"Tarea actualizada",Toast.LENGTH_LONG).show()
+
+            }
+        }
+
+
     }
 }
