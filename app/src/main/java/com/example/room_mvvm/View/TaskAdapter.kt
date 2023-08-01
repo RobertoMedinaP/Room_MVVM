@@ -52,7 +52,7 @@ class TaskAdapter: RecyclerView.Adapter<TaskAdapter.TaskVh>() {
                 binding.tvTitle.text=task.title
                 binding.tvDescription.text=task.descripcion
                 binding.tvDate.text=task.date
-                //el checjbox se obtiene ischecked
+                //el checkbox se obtiene ischecked
                 binding.cbState.isChecked=task.state
                 binding.tvPrioridad.text=task.priority.toString()
 

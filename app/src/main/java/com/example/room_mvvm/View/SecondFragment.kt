@@ -84,11 +84,19 @@ class SecondFragment : Fragment() {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
-        /**Falta: eliminar una tarea.
+        /**Funciona
          */
 
-        //it doesn't work
         binding.button.setOnClickListener {
+            viewModel.selectedItem().observe(viewLifecycleOwner,{
+                it?.let {
+
+                        selectedTask->
+                    idTask=selectedTask.id
+                    taskSelected=selectedTask
+                }
+            })
+
             viewModel.deleteOneTask(taskSelected)
         }
 
