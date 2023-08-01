@@ -50,7 +50,7 @@ class SecondFragment : Fragment() {
         }*/
 
         /**Recibiendo datos enviados desde el primer fragmento, volvemos a usar viewmodel y a
-         * observae
+         * observe
          */
 
         viewModel.selectedItem().observe(viewLifecycleOwner,{
@@ -84,8 +84,13 @@ class SecondFragment : Fragment() {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
-        /**Falta: eliminar una tarea y poder eliminarlas todas
+        /**Falta: eliminar una tarea.
          */
+
+        //it doesn't work
+        binding.button.setOnClickListener {
+            viewModel.deleteOneTask(taskSelected)
+        }
 
     }
 

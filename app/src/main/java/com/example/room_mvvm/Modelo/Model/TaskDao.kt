@@ -27,7 +27,7 @@ interface TaskDao {
     suspend fun updateTask(task: Task)
 
     @Delete
-    suspend fun deleteOneTask(task: Task)
+    suspend fun deleteOneTask(task: Task?)
 
     //para eliminar todas las tareas
     //no recibe nada

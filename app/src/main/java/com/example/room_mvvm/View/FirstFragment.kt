@@ -54,16 +54,16 @@ class FirstFragment : Fragment() {
         /** En esta funcion podemos crear una nueva tarea, hacemos una variable que es del tipo
          * Task, importamos la clase y llenamos segun lo puesto en la clase original
          * TODO: Cada vez que corro la app estoy creando una nueva tarea*/
-       /* val newTask= Task(
+        val newTask= Task(
             title = "RoomMVVM",
-            descripcion = "descripcion-state true",
+            descripcion = "descripcion",
             date = "31-07-2023",
             priority = 1,
             state = true
-        )*/
+        )
 
         //para insertar, llamamos al viewmodel a la funcion insertar tarea y le pasamos la newtask
-        //viewModel.insertTask(newTask)
+        viewModel.insertTask(newTask)
 
         //probando en el app inspector se ha insertado correctamente la tarea
         //despues de crear el adapter pasamos el adapter al recycler view
@@ -86,7 +86,7 @@ class FirstFragment : Fragment() {
         //TODO intentar sacar el operador lambda del parentesis
         viewModel.allTask.observe(viewLifecycleOwner,{
 
-            //mientras exita un elemento en la lista los ira trayendo
+            //mientras exista un elemento en la lista los ira trayendo
             it?.let {
                 adapter.update(it)
             }
@@ -105,6 +105,11 @@ class FirstFragment : Fragment() {
 
             }
         })
+
+        /**funciona!!!*/
+        binding.btDeleteAll.setOnClickListener {
+            viewModel.deleteAllTask()
+        }
 
 
 

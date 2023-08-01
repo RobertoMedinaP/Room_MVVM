@@ -57,13 +57,13 @@ class TaskViewModel (application: Application): AndroidViewModel(application) {
         repository.updateTask(task)
     }
 
-    fun deleteTask()=viewModelScope.launch {
+    fun deleteAllTask()=viewModelScope.launch {
         repository.deleteAll()
     }
 
-    //fun deleteOneTask(task: Task)=viewModelScope.launch {
-      //  repository.deleteOneTask(task)
-    //}
+    fun deleteOneTask(task: Task?)=viewModelScope.launch {
+       repository.deleteOneTask(task)
+    }
 
     //para seleccionar algun elemento
     //hacer una variable que represente la accion de seleccionar que hereda de la lista anterior
