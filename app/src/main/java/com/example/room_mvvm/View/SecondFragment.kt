@@ -88,16 +88,8 @@ class SecondFragment : Fragment() {
          */
 
         binding.button.setOnClickListener {
-            viewModel.selectedItem().observe(viewLifecycleOwner,{
-                it?.let {
-
-                        selectedTask->
-                    idTask=selectedTask.id
-                    taskSelected=selectedTask
-                }
-            })
-
             viewModel.deleteOneTask(taskSelected)
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
     }
